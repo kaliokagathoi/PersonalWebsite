@@ -21,10 +21,10 @@ function initTypingEffect() {
     // CUSTOMIZE YOUR TAGLINES HERE
     // ═══════════════════════════════════════════════════════════════════════
     const phrases = [
-        'Trader @ Optiver',
-        'UNSW Graduate',
-        'Quantitative Finance',
-        'Building things'
+        'quantitative trader @ optiver',
+        'unsw graduate',
+        'machine learning datathon winner',
+        'building things...'
     ];
 
     let phraseIndex = 0;
@@ -32,8 +32,8 @@ function initTypingEffect() {
     let isDeleting = false;
     let isPaused = false;
 
-    const typeSpeed = 80;      // Speed when typing (ms per character)
-    const deleteSpeed = 40;    // Speed when deleting (ms per character)
+    const typeSpeed = 50;      // Speed when typing (ms per character)
+    const deleteSpeed = 50;    // Speed when deleting (ms per character)
     const pauseDuration = 2000; // How long to pause after typing a phrase
 
     function type() {

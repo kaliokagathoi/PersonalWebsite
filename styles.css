@@ -13,10 +13,10 @@
     --bg-secondary: #111111;
     --bg-hover: #1a1a1a;
 
-    /* Text colors */
-    --text-primary: #e5e5e5;
-    --text-secondary: #888888;
-    --text-muted: #555555;
+    /* Text colors - High contrast for readability */
+    --text-primary: #f0f0f0;
+    --text-secondary: #a0a0a0;
+    --text-muted: #707070;
 
     /* Accent colors (syntax-highlighting inspired) */
     --accent-blue: #7aa2f7;
@@ -54,7 +54,7 @@ html {
 
 body {
     font-family: var(--font-mono);
-    font-size: 14px;
+    font-size: 16px;
     font-weight: 400;
     line-height: 1.7;
     color: var(--text-primary);
@@ -81,10 +81,10 @@ body {
    HERO SECTION
    ───────────────────────────────────────────────────────────────────────────── */
 .hero {
-    min-height: 70vh;
+    min-height: auto;
     display: flex;
     align-items: center;
-    padding: 3rem 0;
+    padding: 4rem 0 3rem 0;
 }
 
 .hero-content {
@@ -203,6 +203,19 @@ body {
     flex-wrap: wrap;
     align-items: baseline;
     gap: 0.5rem;
+}
+
+.timeline-date {
+    color: var(--text-muted);
+    font-size: 0.8125rem;
+    margin-left: auto;
+}
+
+@media (max-width: 640px) {
+    .timeline-date {
+        margin-left: 0;
+        width: 100%;
+    }
 }
 
 .timeline-role {
@@ -380,6 +393,18 @@ body {
     color: var(--text-muted);
     font-size: 0.8125rem;
     margin-bottom: 0.5rem;
+}
+
+.project-tag {
+    display: inline-block;
+    font-size: 0.6875rem;
+    color: var(--accent-orange);
+    border: 1px solid var(--accent-orange);
+    padding: 0.125rem 0.5rem;
+    border-radius: 3px;
+    margin-left: 0.5rem;
+    vertical-align: middle;
+    text-transform: lowercase;
 }
 
 .project-bullets {
