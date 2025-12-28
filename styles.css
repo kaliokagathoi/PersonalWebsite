@@ -69,6 +69,27 @@ body {
 }
 
 /* ─────────────────────────────────────────────────────────────────────────────
+   TEXT UTILITIES - Use these to emphasize key metrics
+   ───────────────────────────────────────────────────────────────────────────── */
+.highlight {
+    color: var(--accent-green);
+}
+
+.highlight-blue {
+    color: var(--accent-blue);
+}
+
+.highlight-orange {
+    color: var(--accent-orange);
+}
+
+strong,
+.strong {
+    color: var(--text-primary);
+    font-weight: 500;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
    CONTAINER
    ───────────────────────────────────────────────────────────────────────────── */
 .container {
@@ -196,6 +217,13 @@ body {
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
+    border-left: 2px solid var(--accent-blue);
+    padding-left: 1rem;
+}
+
+/* Current role gets green border */
+#currently .timeline-item {
+    border-left-color: var(--accent-green);
 }
 
 .timeline-header {
@@ -220,13 +248,14 @@ body {
 
 .timeline-role {
     color: var(--text-secondary);
-    font-size: 0.875rem;
+    font-size: 1rem;
 }
 
 .timeline-company {
     color: var(--text-primary);
     text-decoration: none;
     font-weight: 500;
+    font-size: 1rem;
     transition: color 0.2s ease;
 }
 
@@ -399,6 +428,9 @@ body {
     margin: 0 -1rem;
     border-radius: 4px;
     transition: background-color 0.2s ease;
+    border-left: 2px solid var(--accent-blue);
+    margin-left: 0;
+    padding-left: 1rem;
 }
 
 .project-item:hover {
