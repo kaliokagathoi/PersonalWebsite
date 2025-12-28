@@ -1,0 +1,384 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   PERSONAL WEBSITE STYLES
+   Font: IBM Plex Mono (Cursor-inspired)
+   Theme: Dark, minimalistic, software-like
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   CSS VARIABLES - Edit these to customize colors
+   ───────────────────────────────────────────────────────────────────────────── */
+:root {
+    /* Background colors */
+    --bg-primary: #0a0a0a;
+    --bg-secondary: #111111;
+    --bg-hover: #1a1a1a;
+    
+    /* Text colors */
+    --text-primary: #e5e5e5;
+    --text-secondary: #888888;
+    --text-muted: #555555;
+    
+    /* Accent colors (syntax-highlighting inspired) */
+    --accent-blue: #7aa2f7;
+    --accent-green: #9ece6a;
+    --accent-purple: #bb9af7;
+    --accent-orange: #ff9e64;
+    --accent-cyan: #7dcfff;
+    
+    /* UI colors */
+    --border-color: #222222;
+    --cursor-color: var(--accent-blue);
+    
+    /* Spacing */
+    --section-gap: 4rem;
+    --container-max: 720px;
+    
+    /* Typography */
+    --font-mono: 'IBM Plex Mono', 'Fira Code', 'SF Mono', Consolas, monospace;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   RESET & BASE STYLES
+   ───────────────────────────────────────────────────────────────────────────── */
+*, *::before, *::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: var(--font-mono);
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.7;
+    color: var(--text-primary);
+    background-color: var(--bg-primary);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+::selection {
+    background-color: var(--accent-blue);
+    color: var(--bg-primary);
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   CONTAINER
+   ───────────────────────────────────────────────────────────────────────────── */
+.container {
+    max-width: var(--container-max);
+    margin: 0 auto;
+    padding: 0 1.5rem;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   HERO SECTION
+   ───────────────────────────────────────────────────────────────────────────── */
+.hero {
+    min-height: 70vh;
+    display: flex;
+    align-items: center;
+    padding: 3rem 0;
+}
+
+.hero-content {
+    width: 100%;
+}
+
+.hero-prefix {
+    color: var(--text-muted);
+    font-size: 0.875rem;
+    margin-bottom: 0.5rem;
+}
+
+.hero-name {
+    font-size: clamp(2.5rem, 8vw, 4rem);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+    margin-bottom: 1rem;
+    background: linear-gradient(135deg, var(--text-primary) 0%, var(--accent-blue) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.hero-tagline {
+    font-size: 1.125rem;
+    color: var(--text-secondary);
+    margin-bottom: 2rem;
+    min-height: 1.7em;
+}
+
+.typing-text {
+    color: var(--accent-green);
+}
+
+.cursor {
+    color: var(--cursor-color);
+    animation: blink 1s step-end infinite;
+}
+
+@keyframes blink {
+    0%, 50% { opacity: 1; }
+    51%, 100% { opacity: 0; }
+}
+
+.hero-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+}
+
+.hero-link {
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-size: 0.875rem;
+    transition: color 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.hero-link:hover {
+    color: var(--accent-blue);
+}
+
+.link-icon {
+    transition: transform 0.2s ease;
+}
+
+.hero-link:hover .link-icon {
+    transform: translateX(3px);
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   SECTIONS
+   ───────────────────────────────────────────────────────────────────────────── */
+.section {
+    padding: var(--section-gap) 0;
+    border-top: 1px solid var(--border-color);
+}
+
+.section-title {
+    font-size: 0.75rem;
+    font-weight: 500;
+    text-transform: lowercase;
+    color: var(--text-muted);
+    letter-spacing: 0.1em;
+    margin-bottom: 1.5rem;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   TIMELINE (Experience/Education)
+   ───────────────────────────────────────────────────────────────────────────── */
+.timeline {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.timeline-item {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.5rem;
+}
+
+.timeline-role {
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+}
+
+.timeline-company {
+    color: var(--text-primary);
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.2s ease;
+}
+
+.timeline-company:hover {
+    color: var(--accent-blue);
+}
+
+.timeline-detail {
+    width: 100%;
+    color: var(--text-muted);
+    font-size: 0.8125rem;
+    margin-top: 0.25rem;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   ACHIEVEMENTS
+   ───────────────────────────────────────────────────────────────────────────── */
+.achievements-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.achievement-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    color: var(--text-secondary);
+    font-size: 0.9375rem;
+}
+
+.achievement-bullet {
+    color: var(--accent-orange);
+    font-size: 0.625rem;
+    margin-top: 0.4rem;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   PROJECTS GRID
+   ───────────────────────────────────────────────────────────────────────────── */
+.projects-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.project-item {
+    display: block;
+    padding: 0.75rem 1rem;
+    margin: 0 -1rem;
+    border-radius: 4px;
+    text-decoration: none;
+    transition: background-color 0.2s ease;
+}
+
+.project-item:hover {
+    background-color: var(--bg-hover);
+}
+
+.project-title {
+    display: block;
+    color: var(--text-primary);
+    font-weight: 500;
+    margin-bottom: 0.25rem;
+    transition: color 0.2s ease;
+}
+
+.project-item:hover .project-title {
+    color: var(--accent-blue);
+}
+
+.project-desc {
+    display: block;
+    color: var(--text-muted);
+    font-size: 0.8125rem;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   CONTACT
+   ───────────────────────────────────────────────────────────────────────────── */
+.section-contact {
+    padding-bottom: 2rem;
+}
+
+.contact-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+}
+
+.contact-link {
+    color: var(--text-primary);
+    text-decoration: none;
+    font-weight: 500;
+    position: relative;
+    transition: color 0.2s ease;
+}
+
+.contact-link::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 0;
+    height: 1px;
+    background-color: var(--accent-blue);
+    transition: width 0.3s ease;
+}
+
+.contact-link:hover {
+    color: var(--accent-blue);
+}
+
+.contact-link:hover::after {
+    width: 100%;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   FOOTER
+   ───────────────────────────────────────────────────────────────────────────── */
+.footer {
+    padding: 2rem 0;
+    border-top: 1px solid var(--border-color);
+}
+
+.footer-text {
+    color: var(--text-muted);
+    font-size: 0.75rem;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   ANIMATIONS
+   ───────────────────────────────────────────────────────────────────────────── */
+.fade-in {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.fade-in.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   RESPONSIVE
+   ───────────────────────────────────────────────────────────────────────────── */
+@media (max-width: 640px) {
+    body {
+        font-size: 13px;
+    }
+    
+    .hero {
+        min-height: 60vh;
+    }
+    
+    .hero-links {
+        gap: 1rem;
+    }
+    
+    :root {
+        --section-gap: 3rem;
+    }
+    
+    .project-item {
+        padding: 0.625rem 0.75rem;
+        margin: 0 -0.75rem;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    html {
+        scroll-behavior: auto;
+    }
+    
+    .fade-in {
+        transition: none;
+    }
+    
+    .cursor {
+        animation: none;
+    }
+}
