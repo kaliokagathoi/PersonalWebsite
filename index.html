@@ -18,9 +18,7 @@
 </head>
 
 <body>
-    <!-- ═══════════════════════════════════════════════════════════════════════
-         HEADER / HERO SECTION
-         ═══════════════════════════════════════════════════════════════════════ -->
+    <!-- Header / Hero Section -->
     <header class="hero">
         <div class="container">
             <div class="hero-content">
@@ -121,13 +119,15 @@
                 <div class="timeline">
                     <div class="timeline-item">
                         <div class="timeline-header">
-                            <span class="timeline-role">BActSt / BEc (Actuarial Studies / Economics) - 2025</span>
+                            <span class="timeline-role">BActSt / BEc (Distinction)</span>
                             <a href="https://unsw.edu.au" target="_blank" rel="noopener" class="timeline-company">UNSW
                                 Sydney</a>
+                            <span class="timeline-date">2022 - 2025</span>
                         </div>
+                        <p class="timeline-detail">Bachelor of Actuarial Studies / Bachelor of Economics</p>
                         <p class="timeline-detail">Major: Econometrics & Data Analytics</p>
 
-                        <!-- FEATURED ACHIEVEMENT -->
+                        <!-- Featured Achievement -->
                         <div class="featured-achievement">
                             <span class="featured-label">featured</span>
                             <div class="featured-title">First Place: UNSW Actuarial Datathon</div>
@@ -143,7 +143,7 @@
                             </ul>
                         </div>
 
-                        <!-- OTHER ACHIEVEMENTS -->
+                        <!-- Other Achievements -->
                         <div class="education-achievements">
                             <span class="achievements-label">other achievements:</span>
                             <ul class="timeline-bullets">
@@ -157,145 +157,97 @@
             </div>
         </section>
 
-        <!-- ═══════════════════════════════════════════════════════════════════════
-             PROJECTS SECTION
-             ═══════════════════════════════════════════════════════════════════════
-             
-             HOW TO ADD/EDIT PROJECTS:
-             1. Copy a project-item block
-             2. Update the href, title, and description
-             3. Projects are displayed in order from top to bottom
-             
-             ═══════════════════════════════════════════════════════════════════════ -->
         <section class="section" id="projects">
             <div class="container">
                 <h2 class="section-title">projects</h2>
                 <div class="projects-grid">
 
-                    <!-- ─────────────────────────────────────────────────────────
-                         PRIVATE PROJECT (no link)
-                         ───────────────────────────────────────────────────────── -->
+                    <!-- Phoros -->
                     <div class="project-item">
-                        <span class="project-title">private project name</span>
-                        <span class="project-tag">private</span>
-                        <span class="project-desc">Description of your private project</span>
+                        <span class="project-title">Phoros</span>
+                        <span class="project-desc">Self-Built Quantitative Trading Stack</span>
                         <ul class="project-bullets">
-                            <li>Add bullet point here</li>
-                            <li>Add another bullet point</li>
+                            <li>Rust-based data pipeline on remote server handles ingestion, parsing, and cloud storage
+                            </li>
+                            <li>local ZeroMQ server handles real-time data streaming and model outputs</li>
+                            <li>comprehensive research base covering MFT strategies, realised volatility forecasting,
+                                and prediction
+                                markets</li>
+                            <li>Python-based backtesting framework with robust market execution</li>
                         </ul>
                     </div>
 
-                    <!-- ─────────────────────────────────────────────────────────
-                         PROJECT 1: Cognitive Performance Tracker
-                         ───────────────────────────────────────────────────────── -->
-                    <div class="project-item">
-                        <a href="https://github.com/kaliokagathoi/CognitivePerformance" target="_blank" rel="noopener"
-                            class="project-link">
-                            <span class="project-title">cognitive performance</span>
-                        </a>
-                        <span class="project-desc">Web app to track game & test statistics</span>
-                        <ul class="project-bullets">
-                            <li>Add bullet point here</li>
-                            <li>Add another bullet point</li>
-                        </ul>
-                    </div>
-
-                    <!-- ─────────────────────────────────────────────────────────
-                         PROJECT 2: Climate Variability Index
-                         ───────────────────────────────────────────────────────── -->
+                    <!-- Climate Variability Index -->
                     <div class="project-item">
                         <a href="https://github.com/kaliokagathoi/ClimateVariabilityIndex" target="_blank"
                             rel="noopener" class="project-link">
-                            <span class="project-title">climate variability index</span>
+                            <span class="project-title">Australian Climate Variability Index</span>
                         </a>
-                        <span class="project-desc">Backend for climate data analysis (R)</span>
+                        <span class="project-desc">Exploratory Analysis and Dashboard for Climate Data focussing on
+                            Agricultural Regions</span>
                         <ul class="project-bullets">
-                            <li>Add bullet point here</li>
-                            <li>Add another bullet point</li>
+                            <li>automated data scraping from open-meteo.com for daily weather data across key
+                                agricultural regions</li>
+                            <li>performed exploratory analysis on the data to identify key trends and relationships</li>
+                            <li>created online interactive dashboard using Dash to visualise key findings</li>
                         </ul>
                     </div>
 
-                    <!-- ─────────────────────────────────────────────────────────
-                         PROJECT 3: Training App
-                         ───────────────────────────────────────────────────────── -->
+                    <!-- Sports Prediction Models -->
                     <div class="project-item">
-                        <a href="https://github.com/kaliokagathoi/trainingApp" target="_blank" rel="noopener"
-                            class="project-link">
-                            <span class="project-title">training app</span>
-                        </a>
-                        <span class="project-desc">Performance training application (Cython)</span>
+                        <span class="project-title">Football Prediction Models</span>
+                        <span class="project-desc">Predicting Outcomes of EPL Matches with Machine Learning</span>
                         <ul class="project-bullets">
-                            <li>Add bullet point here</li>
-                            <li>Add another bullet point</li>
+                            <li>utilised historical data to build models to predict a wide range of outcomes, including
+                                match results, goal differences, and player performance</li>
+                            <li>aim to expand to AFL markets by mid-2026 for mid-game comparison with live Betfair odds
+                            </li>
                         </ul>
                     </div>
-
-                    <!-- ─────────────────────────────────────────────────────────
-                         PROJECT 4: Nutrition Logger
-                         ───────────────────────────────────────────────────────── -->
-                    <div class="project-item">
-                        <a href="https://github.com/kaliokagathoi/nutritionLogger" target="_blank" rel="noopener"
-                            class="project-link">
-                            <span class="project-title">nutrition logger</span>
-                        </a>
-                        <span class="project-desc">Personal nutrition tracking tool (Python)</span>
-                        <ul class="project-bullets">
-                            <li>Add bullet point here</li>
-                            <li>Add another bullet point</li>
-                        </ul>
-                    </div>
-
-                    <!-- ─────────────────────────────────────────────────────────
-                         ADD MORE PROJECTS HERE
-                         Copy the template below and fill in your details:
-                         
-                    <a href="YOUR_PROJECT_URL" target="_blank" rel="noopener" class="project-item">
-                        <span class="project-title">project name</span>
-                        <span class="project-desc">Brief description of the project</span>
-                    </a>
-                         ───────────────────────────────────────────────────────── -->
 
                 </div>
             </div>
         </section>
 
-        <!-- ═══════════════════════════════════════════════════════════════════════
-             ABOUT ME SECTION
-             ═══════════════════════════════════════════════════════════════════════ -->
+        <!-- About Me -->
         <section class="section" id="about">
             <div class="container">
                 <h2 class="section-title">about me</h2>
                 <div class="about-content">
                     <p class="about-text">
-                        Write a brief introduction about yourself here. Talk about your interests,
-                        what drives you, and what you're passionate about.
+                        Hi, I'm Tom. I'm a recent graduate from UNSW where I studied Actuarial Studies and Economics,
+                        majoring in Data Analytics and Econometrics. I have a strong background in using data to solve
+                        problems and make data-driven decisions.<br><br>
+
+                        I remember being 15 and building a primitive model in Excel
+                        for the ASX 20 which focussed on momentum-related strategies. Ever since then I've been chasing
+                        how I can use math to beat the markets.<br><br>
+
+                        I also have a passion for data science and sport, and these intersected when in Year 12 I
+                        created another Excel-based algorithm to predict the outcome of English Premier League matches
+                        and compare my odds vs the betting markets.<br><br>
+
+                        I've come a long way since then, using my skills across Python, R, and numerous other languages
+                        to tackle a range of projects and solve a variety of problems.<br><br>
+
+                        I'm always up for a chat, so feel free to reach out!
                     </p>
 
-                    <!-- ACHIEVEMENTS/HIGHLIGHTS -->
+                    <!-- Skills -->
                     <div class="about-highlights">
-                        <h3 class="about-subtitle">highlights</h3>
+                        <h3 class="about-subtitle">skills</h3>
                         <ul class="about-list">
-                            <li>Dean's List — UNSW Business School</li>
-                            <li>Add another achievement or highlight</li>
-                            <li>Add more as needed</li>
-                        </ul>
-                    </div>
-
-                    <!-- INTERESTS (optional) -->
-                    <div class="about-highlights">
-                        <h3 class="about-subtitle">interests</h3>
-                        <ul class="about-list">
-                            <li>Quantitative finance & trading</li>
-                            <li>Add your interests here</li>
+                            <li>languages: python, r, sql</li>
+                            <li>machine learning: gradient boosting, neural networks, transformers</li>
+                            <li>dashboards: dash, plotly</li>
+                            <li>experience working with enterprise data platforms (databricks)</li>
                         </ul>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- ═══════════════════════════════════════════════════════════════════════
-             CONTACT SECTION
-             ═══════════════════════════════════════════════════════════════════════ -->
+        <!-- Contact Section -->
         <section class="section section-contact" id="contact">
             <div class="container">
                 <h2 class="section-title">contact</h2>
@@ -315,9 +267,7 @@
         </section>
     </main>
 
-    <!-- ═══════════════════════════════════════════════════════════════════════
-         FOOTER
-         ═══════════════════════════════════════════════════════════════════════ -->
+    <!-- Footer -->
     <footer class="footer">
         <div class="container">
             <p class="footer-text">© 2025 Tom Coates</p>
