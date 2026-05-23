@@ -22,9 +22,7 @@ function initTypingEffect() {
     // ═══════════════════════════════════════════════════════════════════════
     const phrases = [
         'quantitative trader @ optiver',
-        'unsw graduate',
-        'machine learning datathon winner',
-        'building things...'
+        'unsw graduate'
     ];
 
     let phraseIndex = 0;
