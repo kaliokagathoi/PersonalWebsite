@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>markets // Tom Coates</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;600&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="styles.css">
+
+    <style>
+        /* ── Gate ────────────────────────────────────────────────────────── */
+        #gate {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+        }
+
+        .gate-inner {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .gate-label {
+            color: var(--text-muted);
+            font-size: 0.75rem;
+            letter-spacing: 0.1em;
+        }
+
+        .pw-input {
+            background: transparent;
+            border: none;
+            border-bottom: 1px solid var(--border-color);
+            color: var(--text-primary);
+            font-family: var(--font-mono);
+            font-size: 1rem;
+            padding: 0.5rem 0;
+            width: 280px;
+            outline: none;
+            caret-color: var(--accent-blue);
+        }
+
+        .pw-input::placeholder {
+            color: var(--text-muted);
+        }
+
+        .pw-input:focus {
+            border-bottom-color: var(--accent-blue);
+        }
+
+        .pw-error {
+            color: var(--accent-orange);
+            font-size: 0.8125rem;
+            min-height: 1.2em;
+        }
+
+        /* ── Markets ─────────────────────────────────────────────────────── */
+        #markets {
+            display: none;
+        }
+
+        .markets-header {
+            padding: 4rem 0 2.5rem;
+        }
+
+        .markets-back {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.8125rem;
+            transition: color 0.2s;
+            display: inline-block;
+            margin-bottom: 1.5rem;
+        }
+
+        .markets-back:hover {
+            color: var(--accent-blue);
+        }
+
+        .markets-title {
+            font-size: clamp(2rem, 6vw, 3rem);
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            line-height: 1.1;
+        }
+
+        .markets-title .prefix {
+            color: var(--text-muted);
+        }
+
+        /* ── Ticker grid ─────────────────────────────────────────────────── */
+        .ticker-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+
+        @media (max-width: 640px) {
+            .ticker-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .ticker-card {
+            border-left: 2px solid var(--accent-green);
+            padding: 1rem 1.25rem;
+            background: var(--bg-secondary);
+            border-radius: 0 4px 4px 0;
+            transition: border-left-color 0.4s ease;
+        }
+
+        .ticker-card.stale {
+            border-left-color: var(--text-muted);
+        }
+
+        .ticker-name {
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        .ticker-symbol {
+            color: var(--text-muted);
+            font-size: 0.6875rem;
+            letter-spacing: 0.05em;
+            margin-bottom: 1rem;
+        }
+
+        .ticker-krw {
+            font-size: clamp(1.5rem, 4vw, 2.25rem);
+            font-weight: 600;
+            color: var(--accent-green);
+            letter-spacing: -0.02em;
+            line-height: 1.1;
+            font-variant-numeric: tabular-nums;
+        }
+
+        .ticker-usd {
+            color: var(--text-muted);
+            font-size: 0.8125rem;
+            margin-top: 0.25rem;
+            margin-bottom: 1rem;
+            font-variant-numeric: tabular-nums;
+        }
+
+        .ticker-book {
+            display: flex;
+            gap: 0.75rem;
+            align-items: center;
+            font-size: 0.75rem;
+            font-variant-numeric: tabular-nums;
+        }
+
+        .ticker-bid {
+            color: var(--accent-green);
+        }
+
+        .ticker-ask {
+            color: var(--accent-orange);
+        }
+
+        .ticker-spread {
+            color: var(--text-muted);
+        }
+
+        /* ── Status bar ──────────────────────────────────────────────────── */
+        .status-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        .status-left {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .status-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--text-muted);
+            flex-shrink: 0;
+        }
+
+        .status-dot.connected {
+            background: var(--accent-green);
+        }
+
+        .status-dot.reconnecting {
+            background: var(--accent-orange);
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ── Password gate ─────────────────────────────────────────────────── -->
+    <div id="gate">
+        <div class="container">
+            <div class="gate-inner">
+                <p class="gate-label">// access required</p>
+                <input type="password" id="pw-input" class="pw-input" placeholder="password" autocomplete="off"
+                    autofocus>
+                <p class="pw-error" id="pw-error">&nbsp;</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ── Markets ───────────────────────────────────────────────────────── -->
+    <div id="markets">
+
+        <header class="markets-header">
+            <div class="container">
+                <a href="index.html" class="markets-back">← back</a>
+                <h1 class="markets-title">
+                    <span class="prefix">// </span>markets
+                </h1>
+            </div>
+        </header>
+
+        <main>
+            <section class="section" style="border-top: none; padding-top: 0;">
+                <div class="container">
+                    <div class="ticker-grid">
+
+                        <!-- SK Hynix -->
+                        <div class="ticker-card stale" id="card-skhx">
+                            <div class="ticker-name">SK Hynix</div>
+                            <div class="ticker-symbol">000660.KS · xyz:SKHX</div>
+                            <div class="ticker-krw" id="skhx-krw">—</div>
+                            <div class="ticker-usd" id="skhx-usd">— USD</div>
+                            <div class="ticker-book">
+                                <span class="ticker-bid" id="skhx-bid">—</span>
+                                <span class="ticker-spread" id="skhx-spread">·</span>
+                                <span class="ticker-ask" id="skhx-ask">—</span>
+                            </div>
+                        </div>
+
+                        <!-- Samsung -->
+                        <div class="ticker-card stale" id="card-smsn">
+                            <div class="ticker-name">Samsung Electronics</div>
+                            <div class="ticker-symbol">005930.KS · xyz:SMSN</div>
+                            <div class="ticker-krw" id="smsn-krw">—</div>
+                            <div class="ticker-usd" id="smsn-usd">— USD</div>
+                            <div class="ticker-book">
+                                <span class="ticker-bid" id="smsn-bid">—</span>
+                                <span class="ticker-spread" id="smsn-spread">·</span>
+                                <span class="ticker-ask" id="smsn-ask">—</span>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </section>
+
+            <section class="section">
+                <div class="container">
+                    <div class="status-bar">
+                        <span class="status-left">
+                            <span class="status-dot" id="status-dot"></span>
+                            <span id="status-text">connecting...</span>
+                        </span>
+                        <span id="krw-rate">USD/KRW —</span>
+                        <span id="last-update">—</span>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer class="footer">
+            <div class="container">
+                <p class="footer-text">trade[XYZ] · Hyperliquid · micro-price = (bid·ask_sz + ask·bid_sz) / (bid_sz + ask_sz)</p>
+            </div>
+        </footer>
+
+    </div>
+
+    <script>
+        // ── Password gate ──────────────────────────────────────────────────
+        // To change password: generate SHA-256 hash of new password and replace PW_HASH.
+        // e.g. python -c "import hashlib; print(hashlib.sha256(b'newpassword').hexdigest())"
+        const PW_HASH = '13c56c7629559aa4cbaec57ec5aac24abba2eeeb26a8411195decd2ee6dff0cc';
+
+        async function hashInput(s) {
+            const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(s));
+            return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('');
+        }
+
+        document.getElementById('pw-input').addEventListener('keydown', async (e) => {
+            if (e.key !== 'Enter') return;
+            if (await hashInput(e.target.value) === PW_HASH) {
+                document.getElementById('gate').style.display = 'none';
+                document.getElementById('markets').style.display = 'block';
+                initMarkets();
+            } else {
+                e.target.value = '';
+                const err = document.getElementById('pw-error');
+                err.textContent = 'incorrect';
+                setTimeout(() => { err.innerHTML = '&nbsp;'; }, 2000);
+            }
+        });
+
+        // ── State ──────────────────────────────────────────────────────────
+        const state = {
+            krw: null,
+            skhx: { bid: null, bidSz: null, ask: null, askSz: null },
+            smsn: { bid: null, bidSz: null, ask: null, askSz: null },
+        };
+
+        function microPrice(bidPx, askSz, askPx, bidSz) {
+            const total = bidSz + askSz;
+            return total ? (bidPx * askSz + askPx * bidSz) / total : null;
+        }
+
+        function fmtKrw(n) {
+            return '₩' + Math.round(n).toLocaleString('en-US');
+        }
+
+        function fmtSpread(bidPx, askPx) {
+            if (!bidPx || !askPx) return '·';
+            return ((askPx - bidPx) / bidPx * 10000).toFixed(1) + ' bps';
+        }
+
+        function renderTicker(key) {
+            const s = state[key];
+            if (!s.bid || !s.ask || !state.krw) return;
+
+            const usdMid = microPrice(s.bid, s.askSz, s.ask, s.bidSz);
+            if (!usdMid) return;
+
+            document.getElementById(`${key}-krw`).textContent = fmtKrw(usdMid * state.krw);
+            document.getElementById(`${key}-usd`).textContent = usdMid.toFixed(2) + ' USD';
+            document.getElementById(`${key}-bid`).textContent = fmtKrw(s.bid * state.krw);
+            document.getElementById(`${key}-ask`).textContent = fmtKrw(s.ask * state.krw);
+            document.getElementById(`${key}-spread`).textContent = fmtSpread(s.bid, s.ask);
+            document.getElementById(`card-${key}`).classList.remove('stale');
+        }
+
+        function setStatus(s) {
+            document.getElementById('status-dot').className = 'status-dot ' + s;
+            document.getElementById('status-text').textContent =
+                s === 'connected' ? 'live' : s === 'reconnecting' ? 'reconnecting...' : 'connecting...';
+        }
+
+        function setLastUpdate() {
+            document.getElementById('last-update').textContent =
+                new Date().toLocaleTimeString('en-AU', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+        }
+
+        // ── WebSocket ──────────────────────────────────────────────────────
+        function initMarkets() {
+            let reconnectDelay = 1000;
+
+            function connect() {
+                setStatus('connecting');
+                const ws = new WebSocket('wss://api.hyperliquid.xyz/ws');
+
+                ws.onopen = () => {
+                    setStatus('connected');
+                    reconnectDelay = 1000;
+                    const sub = (type, coin) =>
+                        ws.send(JSON.stringify({ method: 'subscribe', subscription: { type, coin } }));
+                    sub('bbo', 'xyz:SKHX');
+                    sub('bbo', 'xyz:SMSN');
+                    sub('activeAssetCtx', 'xyz:KRW');
+                };
+
+                ws.onmessage = (event) => {
+                    const { channel, data } = JSON.parse(event.data);
+
+                    if (channel === 'bbo' && data?.bbo?.length === 2) {
+                        const key = data.coin === 'xyz:SKHX' ? 'skhx' : data.coin === 'xyz:SMSN' ? 'smsn' : null;
+                        if (!key) return;
+                        state[key].bid   = parseFloat(data.bbo[0].px);
+                        state[key].bidSz = parseFloat(data.bbo[0].sz);
+                        state[key].ask   = parseFloat(data.bbo[1].px);
+                        state[key].askSz = parseFloat(data.bbo[1].sz);
+                        renderTicker(key);
+                        setLastUpdate();
+                    }
+
+                    if (channel === 'activeAssetCtx' && data?.coin === 'xyz:KRW') {
+                        const oracle = parseFloat(data.ctx?.oraclePx);
+                        if (oracle) {
+                            state.krw = oracle;
+                            document.getElementById('krw-rate').textContent =
+                                'USD/KRW ' + Math.round(oracle).toLocaleString('en-US');
+                            renderTicker('skhx');
+                            renderTicker('smsn');
+                        }
+                    }
+                };
+
+                ws.onclose = () => {
+                    setStatus('reconnecting');
+                    ['skhx', 'smsn'].forEach(k => document.getElementById(`card-${k}`).classList.add('stale'));
+                    setTimeout(connect, reconnectDelay);
+                    reconnectDelay = Math.min(reconnectDelay * 2, 30000);
+                };
+
+                ws.onerror = () => ws.close();
+            }
+
+            connect();
+        }
+    </script>
+
+</body>
+
+</html>
