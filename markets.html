@@ -14,6 +14,10 @@
     <link rel="stylesheet" href="styles.css">
 
     <style>
+        :root {
+            --container-max: 1100px;
+        }
+
         /* ── Gate ────────────────────────────────────────────────────────── */
         #gate {
             min-height: 100vh;
@@ -46,13 +50,8 @@
             caret-color: var(--accent-blue);
         }
 
-        .pw-input::placeholder {
-            color: var(--text-muted);
-        }
-
-        .pw-input:focus {
-            border-bottom-color: var(--accent-blue);
-        }
+        .pw-input::placeholder { color: var(--text-muted); }
+        .pw-input:focus { border-bottom-color: var(--accent-blue); }
 
         .pw-error {
             color: var(--accent-orange);
@@ -61,13 +60,9 @@
         }
 
         /* ── Markets ─────────────────────────────────────────────────────── */
-        #markets {
-            display: none;
-        }
+        #markets { display: none; }
 
-        .markets-header {
-            padding: 4rem 0 2.5rem;
-        }
+        .markets-header { padding: 3rem 0 2rem; }
 
         .markets-back {
             color: var(--text-muted);
@@ -75,97 +70,113 @@
             font-size: 0.8125rem;
             transition: color 0.2s;
             display: inline-block;
-            margin-bottom: 1.5rem;
+            margin-bottom: 1.25rem;
         }
-
-        .markets-back:hover {
-            color: var(--accent-blue);
-        }
+        .markets-back:hover { color: var(--accent-blue); }
 
         .markets-title {
-            font-size: clamp(2rem, 6vw, 3rem);
+            font-size: clamp(1.75rem, 4vw, 2.5rem);
             font-weight: 600;
             letter-spacing: -0.02em;
             line-height: 1.1;
         }
-
-        .markets-title .prefix {
-            color: var(--text-muted);
-        }
+        .markets-title .prefix { color: var(--text-muted); }
 
         /* ── Ticker grid ─────────────────────────────────────────────────── */
         .ticker-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1.5rem;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
         }
 
-        @media (max-width: 640px) {
-            .ticker-grid {
-                grid-template-columns: 1fr;
-            }
+        @media (max-width: 800px) {
+            .ticker-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+        @media (max-width: 520px) {
+            .ticker-grid { grid-template-columns: 1fr; }
         }
 
         .ticker-card {
             border-left: 2px solid var(--accent-green);
-            padding: 1rem 1.25rem;
+            padding: 0.875rem 1rem;
             background: var(--bg-secondary);
             border-radius: 0 4px 4px 0;
             transition: border-left-color 0.4s ease;
+            display: flex;
+            flex-direction: column;
+            gap: 0.1rem;
         }
-
-        .ticker-card.stale {
-            border-left-color: var(--text-muted);
-        }
+        .ticker-card.stale { border-left-color: var(--text-muted); }
 
         .ticker-name {
             color: var(--text-secondary);
-            font-size: 0.875rem;
+            font-size: 0.8125rem;
             font-weight: 500;
         }
-
         .ticker-symbol {
             color: var(--text-muted);
-            font-size: 0.6875rem;
-            letter-spacing: 0.05em;
-            margin-bottom: 1rem;
+            font-size: 0.625rem;
+            letter-spacing: 0.04em;
+            margin-bottom: 0.5rem;
         }
 
-        .ticker-krw {
-            font-size: clamp(1.5rem, 4vw, 2.25rem);
+        .ticker-price {
+            font-size: clamp(1.25rem, 3vw, 1.75rem);
             font-weight: 600;
             color: var(--accent-green);
             letter-spacing: -0.02em;
-            line-height: 1.1;
+            line-height: 1.15;
             font-variant-numeric: tabular-nums;
         }
-
-        .ticker-usd {
+        .ticker-ref {
             color: var(--text-muted);
-            font-size: 0.8125rem;
-            margin-top: 0.25rem;
-            margin-bottom: 1rem;
-            font-variant-numeric: tabular-nums;
-        }
-
-        .ticker-book {
-            display: flex;
-            gap: 0.75rem;
-            align-items: center;
             font-size: 0.75rem;
             font-variant-numeric: tabular-nums;
+            margin-bottom: 0.4rem;
+            min-height: 1em;
         }
 
-        .ticker-bid {
-            color: var(--accent-green);
+        .ticker-row {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+            font-size: 0.6875rem;
+            font-variant-numeric: tabular-nums;
+            flex-wrap: wrap;
         }
-
-        .ticker-ask {
-            color: var(--accent-orange);
-        }
-
-        .ticker-spread {
+        .ticker-row-label {
             color: var(--text-muted);
+            flex-shrink: 0;
+        }
+        .t-bid  { color: var(--accent-green); }
+        .t-ask  { color: var(--accent-orange); }
+        .t-sep  { color: var(--text-muted); }
+
+        /* ── Returns ─────────────────────────────────────────────────────── */
+        .ticker-returns {
+            margin-top: 0.5rem;
+            padding-top: 0.5rem;
+            border-top: 1px solid var(--border-color);
+        }
+        .returns-grid {
+            display: grid;
+            grid-template-columns: auto auto auto auto auto auto;
+            gap: 0.15rem 0.4rem;
+            font-size: 0.625rem;
+            font-variant-numeric: tabular-nums;
+        }
+        .ret-label { color: var(--text-muted); }
+        .ret-pos   { color: var(--accent-green); }
+        .ret-neg   { color: var(--accent-orange); }
+        .ret-nil   { color: var(--text-muted); }
+
+        .krx-row {
+            display: flex;
+            gap: 0.4rem;
+            align-items: center;
+            font-size: 0.625rem;
+            margin-top: 0.2rem;
+            font-variant-numeric: tabular-nums;
         }
 
         /* ── Status bar ──────────────────────────────────────────────────── */
@@ -178,13 +189,11 @@
             font-size: 0.75rem;
             color: var(--text-muted);
         }
-
         .status-left {
             display: flex;
             align-items: center;
             gap: 0.5rem;
         }
-
         .status-dot {
             width: 6px;
             height: 6px;
@@ -192,14 +201,8 @@
             background: var(--text-muted);
             flex-shrink: 0;
         }
-
-        .status-dot.connected {
-            background: var(--accent-green);
-        }
-
-        .status-dot.reconnecting {
-            background: var(--accent-orange);
-        }
+        .status-dot.connected    { background: var(--accent-green); }
+        .status-dot.reconnecting { background: var(--accent-orange); }
     </style>
 </head>
 
@@ -210,8 +213,8 @@
         <div class="container">
             <div class="gate-inner">
                 <p class="gate-label">// access required</p>
-                <input type="password" id="pw-input" class="pw-input" placeholder="password" autocomplete="off"
-                    autofocus>
+                <input type="password" id="pw-input" class="pw-input" placeholder="password"
+                    autocomplete="off" autofocus>
                 <p class="pw-error" id="pw-error">&nbsp;</p>
             </div>
         </div>
@@ -232,35 +235,7 @@
         <main>
             <section class="section" style="border-top: none; padding-top: 0;">
                 <div class="container">
-                    <div class="ticker-grid">
-
-                        <!-- SK Hynix -->
-                        <div class="ticker-card stale" id="card-skhx">
-                            <div class="ticker-name">SK Hynix</div>
-                            <div class="ticker-symbol">000660.KS · xyz:SKHX</div>
-                            <div class="ticker-krw" id="skhx-krw">—</div>
-                            <div class="ticker-usd" id="skhx-usd">— USD</div>
-                            <div class="ticker-book">
-                                <span class="ticker-bid" id="skhx-bid">—</span>
-                                <span class="ticker-spread" id="skhx-spread">·</span>
-                                <span class="ticker-ask" id="skhx-ask">—</span>
-                            </div>
-                        </div>
-
-                        <!-- Samsung -->
-                        <div class="ticker-card stale" id="card-smsn">
-                            <div class="ticker-name">Samsung Electronics</div>
-                            <div class="ticker-symbol">005930.KS · xyz:SMSN</div>
-                            <div class="ticker-krw" id="smsn-krw">—</div>
-                            <div class="ticker-usd" id="smsn-usd">— USD</div>
-                            <div class="ticker-book">
-                                <span class="ticker-bid" id="smsn-bid">—</span>
-                                <span class="ticker-spread" id="smsn-spread">·</span>
-                                <span class="ticker-ask" id="smsn-ask">—</span>
-                            </div>
-                        </div>
-
-                    </div>
+                    <div class="ticker-grid" id="ticker-grid"></div>
                 </div>
             </section>
 
@@ -280,142 +255,358 @@
 
         <footer class="footer">
             <div class="container">
-                <p class="footer-text">trade[XYZ] · Hyperliquid · micro-price = (bid·ask_sz + ask·bid_sz) / (bid_sz + ask_sz)</p>
+                <p class="footer-text">trade[XYZ] · Hyperliquid · μ-price = (bid·ask_sz + ask·bid_sz) / (bid_sz + ask_sz) · returns in USD terms</p>
             </div>
         </footer>
 
     </div>
 
     <script>
-        // ── Password gate ──────────────────────────────────────────────────
-        // To change password: generate SHA-256 hash of new password and replace PW_HASH.
-        // e.g. python -c "import hashlib; print(hashlib.sha256(b'newpassword').hexdigest())"
-        const PW_HASH = '13c56c7629559aa4cbaec57ec5aac24abba2eeeb26a8411195decd2ee6dff0cc';
+    // ════════════════════════════════════════════════════════════════════════
+    // PASSWORD GATE
+    // To change: python -c "import hashlib; print(hashlib.sha256(b'pw').hexdigest())"
+    // ════════════════════════════════════════════════════════════════════════
+    const PW_HASH = '13c56c7629559aa4cbaec57ec5aac24abba2eeeb26a8411195decd2ee6dff0cc';
 
-        async function hashInput(s) {
-            const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(s));
-            return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('');
+    async function hashInput(s) {
+        const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(s));
+        return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('');
+    }
+
+    document.getElementById('pw-input').addEventListener('keydown', async (e) => {
+        if (e.key !== 'Enter') return;
+        if (await hashInput(e.target.value) === PW_HASH) {
+            document.getElementById('gate').style.display = 'none';
+            document.getElementById('markets').style.display = 'block';
+            initMarkets();
+        } else {
+            e.target.value = '';
+            const err = document.getElementById('pw-error');
+            err.textContent = 'incorrect';
+            setTimeout(() => { err.innerHTML = '&nbsp;'; }, 2000);
+        }
+    });
+
+    // ════════════════════════════════════════════════════════════════════════
+    // CONFIG
+    // ════════════════════════════════════════════════════════════════════════
+    const COINS = [
+        { id: 'skhx', coin: 'xyz:SKHX', name: 'SK Hynix',           sym: '000660.KS', krw: true  },
+        { id: 'smsn', coin: 'xyz:SMSN', name: 'Samsung Electronics', sym: '005930.KS', krw: true  },
+        { id: 'ewy',  coin: 'xyz:EWY',  name: 'iShares MSCI Korea',  sym: 'EWY',       krw: false },
+        { id: 'mu',   coin: 'xyz:MU',   name: 'Micron Technology',   sym: 'MU',        krw: false },
+        { id: 'sndk', coin: 'xyz:SNDK', name: 'SanDisk',             sym: 'SNDK',      krw: false },
+        { id: 'nvda', coin: 'xyz:NVDA', name: 'NVIDIA',              sym: 'NVDA',      krw: false },
+    ];
+
+    const RETURN_WINDOWS = [
+        ['r5',   5,    '5m' ],
+        ['r30',  30,   '30m'],
+        ['r1h',  60,   '1h' ],
+        ['r4h',  240,  '4h' ],
+        ['r8h',  480,  '8h' ],
+        ['r24h', 1440, '24h'],
+    ];
+
+    // ════════════════════════════════════════════════════════════════════════
+    // STATE
+    // ════════════════════════════════════════════════════════════════════════
+    const krwState = { rate: null };
+
+    const coinState = {};
+    COINS.forEach(c => {
+        coinState[c.coin] = {
+            bid: null, bidSz: null, ask: null, askSz: null,
+            impactBid: null, impactAsk: null,
+            microPx: null,
+        };
+    });
+
+    // ════════════════════════════════════════════════════════════════════════
+    // FORMATTING
+    // ════════════════════════════════════════════════════════════════════════
+    const fmtKrw = n => '₩' + Math.round(n).toLocaleString('en-US');
+    const fmtUsd = n => '$' + n.toFixed(2);
+
+    function fmtPx(usdPx, isKrw) {
+        if (isKrw && krwState.rate) return fmtKrw(usdPx * krwState.rate);
+        return fmtUsd(usdPx);
+    }
+
+    function fmtSpread(bidPx, askPx) {
+        if (!bidPx || !askPx) return '·';
+        return ((askPx - bidPx) / bidPx * 10000).toFixed(1) + 'bp';
+    }
+
+    function fmtReturn(r) {
+        if (r === null) return ['—', 'ret-nil'];
+        const sign = r >= 0 ? '+' : '';
+        const cls  = r > 0 ? 'ret-pos' : r < 0 ? 'ret-neg' : 'ret-nil';
+        return [sign + r.toFixed(2) + '%', cls];
+    }
+
+    // ════════════════════════════════════════════════════════════════════════
+    // BAR SYSTEM  (1-min bars in localStorage, 25hr rolling window)
+    // ════════════════════════════════════════════════════════════════════════
+    const LS_BARS = 'mkt_bars_';
+    const LS_KRX  = 'mkt_krx_';
+    const MAX_AGE = 25 * 60 * 60 * 1000;
+
+    function loadBars(id) {
+        try { return JSON.parse(localStorage.getItem(LS_BARS + id) || '[]'); }
+        catch { return []; }
+    }
+
+    function saveBars(id, bars) {
+        const cutoff = Date.now() - MAX_AGE;
+        try { localStorage.setItem(LS_BARS + id, JSON.stringify(bars.filter(b => b.ts >= cutoff))); }
+        catch {} // storage full — silently skip
+    }
+
+    function writeBar(id, ts, px) {
+        const bars = loadBars(id);
+        if (bars.length && bars[bars.length - 1].ts === ts) {
+            bars[bars.length - 1].px = px; // overwrite same-minute bar
+        } else {
+            bars.push({ ts, px });
+        }
+        saveBars(id, bars);
+    }
+
+    function getReturn(id, minutesAgo, currentPx) {
+        if (!currentPx) return null;
+        const bars = loadBars(id);
+        if (!bars.length) return null;
+        const cutoff = Date.now() - minutesAgo * 60 * 1000;
+        for (let i = bars.length - 1; i >= 0; i--) {
+            if (bars[i].ts <= cutoff) return (currentPx - bars[i].px) / bars[i].px * 100;
+        }
+        return null;
+    }
+
+    function loadKrxClose(id) {
+        try { return JSON.parse(localStorage.getItem(LS_KRX + id)); }
+        catch { return null; }
+    }
+
+    function saveKrxClose(id, px) {
+        try { localStorage.setItem(LS_KRX + id, JSON.stringify({ ts: Date.now(), px })); }
+        catch {}
+    }
+
+    function getKrxReturn(id, currentPx) {
+        if (!currentPx) return null;
+        const close = loadKrxClose(id);
+        if (!close) return null;
+        return (currentPx - close.px) / close.px * 100;
+    }
+
+    // ════════════════════════════════════════════════════════════════════════
+    // DOM GENERATION
+    // ════════════════════════════════════════════════════════════════════════
+    function buildCards() {
+        const grid = document.getElementById('ticker-grid');
+        COINS.forEach(c => {
+            const el = document.createElement('div');
+            el.className = 'ticker-card stale';
+            el.id = `card-${c.id}`;
+            el.innerHTML = `
+                <div class="ticker-name">${c.name}</div>
+                <div class="ticker-symbol">${c.sym} · ${c.coin}</div>
+                <div class="ticker-price" id="${c.id}-price">—</div>
+                <div class="ticker-ref"   id="${c.id}-ref">${c.krw ? '— USD' : ''}</div>
+                <div class="ticker-row">
+                    <span class="ticker-row-label">bid</span>
+                    <span class="t-bid" id="${c.id}-bid">—</span>
+                    <span class="t-sep" id="${c.id}-spread">·</span>
+                    <span class="t-ask" id="${c.id}-ask">—</span>
+                </div>
+                <div class="ticker-row">
+                    <span class="ticker-row-label">impact</span>
+                    <span class="t-bid" id="${c.id}-ibid">—</span>
+                    <span class="t-sep">/</span>
+                    <span class="t-ask" id="${c.id}-iask">—</span>
+                </div>
+                <div class="ticker-returns">
+                    <div class="returns-grid">
+                        ${RETURN_WINDOWS.map(([sfx,, lbl]) => `
+                            <span class="ret-label">${lbl}</span>
+                            <span class="ret-nil" id="${c.id}-${sfx}">—</span>
+                        `).join('')}
+                    </div>
+                    <div class="krx-row">
+                        <span class="ret-label">Δclose</span>
+                        <span class="ret-nil" id="${c.id}-rclose">—</span>
+                    </div>
+                </div>
+            `;
+            grid.appendChild(el);
+        });
+    }
+
+    // ════════════════════════════════════════════════════════════════════════
+    // RENDER
+    // ════════════════════════════════════════════════════════════════════════
+    function renderCard(cfg) {
+        const s = coinState[cfg.coin];
+        if (!s.bid || !s.ask) return;
+        if (cfg.krw && !krwState.rate) return;
+
+        const total = s.bidSz + s.askSz;
+        if (!total) return;
+        const usdMid = (s.bid * s.askSz + s.ask * s.bidSz) / total;
+        s.microPx = usdMid;
+
+        // price
+        document.getElementById(`${cfg.id}-price`).textContent = fmtPx(usdMid, cfg.krw);
+        if (cfg.krw) {
+            document.getElementById(`${cfg.id}-ref`).textContent = usdMid.toFixed(2) + ' USD';
         }
 
-        document.getElementById('pw-input').addEventListener('keydown', async (e) => {
-            if (e.key !== 'Enter') return;
-            if (await hashInput(e.target.value) === PW_HASH) {
-                document.getElementById('gate').style.display = 'none';
-                document.getElementById('markets').style.display = 'block';
-                initMarkets();
-            } else {
-                e.target.value = '';
-                const err = document.getElementById('pw-error');
-                err.textContent = 'incorrect';
-                setTimeout(() => { err.innerHTML = '&nbsp;'; }, 2000);
-            }
+        // book
+        document.getElementById(`${cfg.id}-bid`).textContent    = fmtPx(s.bid, cfg.krw);
+        document.getElementById(`${cfg.id}-ask`).textContent    = fmtPx(s.ask, cfg.krw);
+        document.getElementById(`${cfg.id}-spread`).textContent = fmtSpread(s.bid, s.ask);
+
+        // impact
+        if (s.impactBid !== null) {
+            document.getElementById(`${cfg.id}-ibid`).textContent = fmtPx(s.impactBid, cfg.krw);
+            document.getElementById(`${cfg.id}-iask`).textContent = fmtPx(s.impactAsk, cfg.krw);
+        }
+
+        document.getElementById(`card-${cfg.id}`).classList.remove('stale');
+        renderReturns(cfg);
+    }
+
+    function renderReturns(cfg) {
+        const s = coinState[cfg.coin];
+        if (!s.microPx) return;
+
+        RETURN_WINDOWS.forEach(([sfx, mins]) => {
+            const [txt, cls] = fmtReturn(getReturn(cfg.id, mins, s.microPx));
+            const el = document.getElementById(`${cfg.id}-${sfx}`);
+            el.textContent = txt;
+            el.className = cls;
         });
 
-        // ── State ──────────────────────────────────────────────────────────
-        const state = {
-            krw: null,
-            skhx: { bid: null, bidSz: null, ask: null, askSz: null },
-            smsn: { bid: null, bidSz: null, ask: null, askSz: null },
-        };
+        const [txt, cls] = fmtReturn(getKrxReturn(cfg.id, s.microPx));
+        const el = document.getElementById(`${cfg.id}-rclose`);
+        el.textContent = txt;
+        el.className = cls;
+    }
 
-        function microPrice(bidPx, askSz, askPx, bidSz) {
-            const total = bidSz + askSz;
-            return total ? (bidPx * askSz + askPx * bidSz) / total : null;
+    function setStatus(s) {
+        document.getElementById('status-dot').className = 'status-dot ' + s;
+        document.getElementById('status-text').textContent =
+            s === 'connected' ? 'live' : s === 'reconnecting' ? 'reconnecting...' : 'connecting...';
+    }
+
+    // ════════════════════════════════════════════════════════════════════════
+    // MINUTE TICK  — writes bars and checks KRX close (06:30 UTC = 15:30 KST)
+    // ════════════════════════════════════════════════════════════════════════
+    let lastBarMinute = -1;
+
+    function tick() {
+        const now = new Date();
+        const minuteKey = Math.floor(Date.now() / 60000);
+        if (minuteKey === lastBarMinute) return;
+        lastBarMinute = minuteKey;
+
+        COINS.forEach(c => {
+            const s = coinState[c.coin];
+            if (s.microPx) writeBar(c.id, minuteKey * 60000, s.microPx);
+        });
+
+        // XKRX cash close: 15:30 KST = 06:30 UTC
+        if (now.getUTCHours() === 6 && now.getUTCMinutes() === 30) {
+            COINS.forEach(c => {
+                const s = coinState[c.coin];
+                if (s.microPx) saveKrxClose(c.id, s.microPx);
+            });
         }
 
-        function fmtKrw(n) {
-            return '₩' + Math.round(n).toLocaleString('en-US');
-        }
+        COINS.forEach(c => renderReturns(c));
+    }
 
-        function fmtSpread(bidPx, askPx) {
-            if (!bidPx || !askPx) return '·';
-            return ((askPx - bidPx) / bidPx * 10000).toFixed(1) + ' bps';
-        }
+    // ════════════════════════════════════════════════════════════════════════
+    // WEBSOCKET
+    // ════════════════════════════════════════════════════════════════════════
+    function initMarkets() {
+        buildCards();
+        setInterval(tick, 5000);
 
-        function renderTicker(key) {
-            const s = state[key];
-            if (!s.bid || !s.ask || !state.krw) return;
+        const coinMap = {};
+        COINS.forEach(c => { coinMap[c.coin] = c; });
 
-            const usdMid = microPrice(s.bid, s.askSz, s.ask, s.bidSz);
-            if (!usdMid) return;
+        let reconnectDelay = 1000;
 
-            document.getElementById(`${key}-krw`).textContent = fmtKrw(usdMid * state.krw);
-            document.getElementById(`${key}-usd`).textContent = usdMid.toFixed(2) + ' USD';
-            document.getElementById(`${key}-bid`).textContent = fmtKrw(s.bid * state.krw);
-            document.getElementById(`${key}-ask`).textContent = fmtKrw(s.ask * state.krw);
-            document.getElementById(`${key}-spread`).textContent = fmtSpread(s.bid, s.ask);
-            document.getElementById(`card-${key}`).classList.remove('stale');
-        }
+        function connect() {
+            setStatus('connecting');
+            const ws = new WebSocket('wss://api.hyperliquid.xyz/ws');
 
-        function setStatus(s) {
-            document.getElementById('status-dot').className = 'status-dot ' + s;
-            document.getElementById('status-text').textContent =
-                s === 'connected' ? 'live' : s === 'reconnecting' ? 'reconnecting...' : 'connecting...';
-        }
+            ws.onopen = () => {
+                setStatus('connected');
+                reconnectDelay = 1000;
+                const sub = (type, coin) =>
+                    ws.send(JSON.stringify({ method: 'subscribe', subscription: { type, coin } }));
 
-        function setLastUpdate() {
-            document.getElementById('last-update').textContent =
-                new Date().toLocaleTimeString('en-AU', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
-        }
+                COINS.forEach(c => {
+                    sub('bbo', c.coin);
+                    sub('activeAssetCtx', c.coin);
+                });
+                sub('activeAssetCtx', 'xyz:KRW');
+            };
 
-        // ── WebSocket ──────────────────────────────────────────────────────
-        function initMarkets() {
-            let reconnectDelay = 1000;
+            ws.onmessage = (event) => {
+                const { channel, data } = JSON.parse(event.data);
 
-            function connect() {
-                setStatus('connecting');
-                const ws = new WebSocket('wss://api.hyperliquid.xyz/ws');
+                if (channel === 'bbo' && data?.bbo?.length === 2) {
+                    const cfg = coinMap[data.coin];
+                    if (!cfg) return;
+                    const s = coinState[data.coin];
+                    s.bid   = parseFloat(data.bbo[0].px);
+                    s.bidSz = parseFloat(data.bbo[0].sz);
+                    s.ask   = parseFloat(data.bbo[1].px);
+                    s.askSz = parseFloat(data.bbo[1].sz);
+                    renderCard(cfg);
+                    document.getElementById('last-update').textContent =
+                        new Date().toLocaleTimeString('en-AU', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+                }
 
-                ws.onopen = () => {
-                    setStatus('connected');
-                    reconnectDelay = 1000;
-                    const sub = (type, coin) =>
-                        ws.send(JSON.stringify({ method: 'subscribe', subscription: { type, coin } }));
-                    sub('bbo', 'xyz:SKHX');
-                    sub('bbo', 'xyz:SMSN');
-                    sub('activeAssetCtx', 'xyz:KRW');
-                };
-
-                ws.onmessage = (event) => {
-                    const { channel, data } = JSON.parse(event.data);
-
-                    if (channel === 'bbo' && data?.bbo?.length === 2) {
-                        const key = data.coin === 'xyz:SKHX' ? 'skhx' : data.coin === 'xyz:SMSN' ? 'smsn' : null;
-                        if (!key) return;
-                        state[key].bid   = parseFloat(data.bbo[0].px);
-                        state[key].bidSz = parseFloat(data.bbo[0].sz);
-                        state[key].ask   = parseFloat(data.bbo[1].px);
-                        state[key].askSz = parseFloat(data.bbo[1].sz);
-                        renderTicker(key);
-                        setLastUpdate();
-                    }
-
-                    if (channel === 'activeAssetCtx' && data?.coin === 'xyz:KRW') {
+                if (channel === 'activeAssetCtx') {
+                    if (data.coin === 'xyz:KRW') {
                         const oracle = parseFloat(data.ctx?.oraclePx);
                         if (oracle) {
-                            state.krw = oracle;
+                            krwState.rate = oracle;
                             document.getElementById('krw-rate').textContent =
                                 'USD/KRW ' + Math.round(oracle).toLocaleString('en-US');
-                            renderTicker('skhx');
-                            renderTicker('smsn');
+                            COINS.filter(c => c.krw).forEach(c => renderCard(c));
                         }
+                        return;
                     }
-                };
+                    const cfg = coinMap[data.coin];
+                    if (!cfg) return;
+                    const s = coinState[data.coin];
+                    const impact = data.ctx?.impactPxs || [];
+                    s.impactBid = impact[0] != null ? parseFloat(impact[0]) : null;
+                    s.impactAsk = impact[1] != null ? parseFloat(impact[1]) : null;
+                    renderCard(cfg);
+                }
+            };
 
-                ws.onclose = () => {
-                    setStatus('reconnecting');
-                    ['skhx', 'smsn'].forEach(k => document.getElementById(`card-${k}`).classList.add('stale'));
-                    setTimeout(connect, reconnectDelay);
-                    reconnectDelay = Math.min(reconnectDelay * 2, 30000);
-                };
+            ws.onclose = () => {
+                setStatus('reconnecting');
+                COINS.forEach(c => document.getElementById(`card-${c.id}`).classList.add('stale'));
+                setTimeout(connect, reconnectDelay);
+                reconnectDelay = Math.min(reconnectDelay * 2, 30000);
+            };
 
-                ws.onerror = () => ws.close();
-            }
-
-            connect();
+            ws.onerror = () => ws.close();
         }
+
+        connect();
+    }
     </script>
 
 </body>
-
 </html>
