@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>fwc 2026 // Tom Coates</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;600&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="styles.css">
+
+    <style>
+        :root {
+            --container-max: 1200px;
+        }
+
+        /* ── Gate ────────────────────────────────────────────────────────── */
+        #gate {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+        }
+
+        .gate-inner {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .gate-label {
+            color: var(--text-muted);
+            font-size: 0.75rem;
+            letter-spacing: 0.1em;
+        }
+
+        .pw-input {
+            background: transparent;
+            border: none;
+            border-bottom: 1px solid var(--border-color);
+            color: var(--text-primary);
+            font-family: var(--font-mono);
+            font-size: 1rem;
+            padding: 0.5rem 0;
+            width: 280px;
+            outline: none;
+            caret-color: var(--accent-blue);
+        }
+
+        .pw-input::placeholder { color: var(--text-muted); }
+        .pw-input:focus { border-bottom-color: var(--accent-blue); }
+
+        .pw-error {
+            color: var(--accent-orange);
+            font-size: 0.8125rem;
+            min-height: 1.2em;
+        }
+
+        /* ── Content ─────────────────────────────────────────────────────── */
+        #fwc { display: none; }
+
+        .fwc-header { padding: 3rem 0 2rem; }
+
+        .fwc-back {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.8125rem;
+            transition: color 0.2s;
+            display: inline-block;
+            margin-bottom: 1.25rem;
+        }
+        .fwc-back:hover { color: var(--accent-blue); }
+
+        .fwc-title {
+            font-size: clamp(1.75rem, 4vw, 2.5rem);
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            line-height: 1.1;
+        }
+        .fwc-title .prefix { color: var(--text-muted); }
+
+        /* ── Table ───────────────────────────────────────────────────────── */
+        .table-wrap { overflow-x: auto; }
+
+        .fwc-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.75rem;
+            font-variant-numeric: tabular-nums;
+            white-space: nowrap;
+        }
+
+        .fwc-table thead tr:first-child th {
+            color: var(--text-muted);
+            font-weight: 400;
+            font-size: 0.625rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            padding: 0 0.75rem 0.3rem;
+            border-bottom: none;
+        }
+
+        .fwc-table thead tr:last-child th {
+            color: var(--text-muted);
+            font-weight: 400;
+            font-size: 0.5625rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            padding: 0.25rem 0.75rem 0.5rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .fwc-table tbody td {
+            padding: 0.5rem 0.75rem;
+            border-bottom: 1px solid rgba(34, 34, 34, 0.7);
+            vertical-align: middle;
+        }
+
+        .fwc-table tbody tr:last-child td { border-bottom: none; }
+        .fwc-table tbody tr:hover td { background: var(--bg-secondary); }
+
+        .col-rank {
+            color: var(--text-muted);
+            width: 2rem;
+            text-align: right;
+            padding-right: 0.5rem !important;
+        }
+
+        .col-team {
+            color: var(--text-primary);
+            font-weight: 500;
+            font-size: 0.8125rem;
+            min-width: 10rem;
+        }
+
+        .col-qualify { color: var(--text-muted); text-align: right; }
+        .col-future  { color: var(--accent-blue); font-weight: 500; text-align: right; font-size: 0.8125rem; }
+        .col-call    { color: var(--accent-green); text-align: right; }
+        .col-put     { color: var(--accent-orange); text-align: right; }
+
+        .th-calls  { color: var(--accent-green) !important; }
+        .th-puts   { color: var(--accent-orange) !important; }
+        .th-future { color: var(--accent-blue) !important; }
+
+        /* future inline bar */
+        .future-cell {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            justify-content: flex-end;
+        }
+        .future-bar {
+            height: 2px;
+            background: var(--accent-blue);
+            opacity: 0.35;
+            border-radius: 1px;
+            flex-shrink: 0;
+        }
+
+        /* qualify probability dot */
+        .qualify-cell {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            justify-content: flex-end;
+        }
+        .qualify-dot {
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+        .q-hi  { background: var(--accent-green); }
+        .q-mid { background: var(--accent-orange); }
+        .q-lo  { background: #ef4444; }
+    </style>
+</head>
+
+<body>
+
+    <!-- ── Password gate ─────────────────────────────────────────────────── -->
+    <div id="gate">
+        <div class="container">
+            <div class="gate-inner">
+                <p class="gate-label">// access required</p>
+                <input type="password" id="pw-input" class="pw-input" placeholder="password"
+                    autocomplete="off" autofocus>
+                <p class="pw-error" id="pw-error">&nbsp;</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ── FWC 2026 ──────────────────────────────────────────────────────── -->
+    <div id="fwc">
+
+        <header class="fwc-header">
+            <div class="container">
+                <a href="index.html" class="fwc-back">← back</a>
+                <h1 class="fwc-title">
+                    <span class="prefix">// </span>fwc 2026
+                </h1>
+            </div>
+        </header>
+
+        <main>
+            <section class="section" style="border-top: none; padding-top: 0;">
+                <div class="container">
+                    <div class="table-wrap">
+                        <table class="fwc-table" id="fwc-table">
+                            <thead>
+                                <tr>
+                                    <th colspan="2"></th>
+                                    <th style="text-align:right">qualify</th>
+                                    <th class="th-future" style="text-align:right">future</th>
+                                    <th class="th-calls" colspan="3" style="text-align:center">calls</th>
+                                    <th class="th-puts"  colspan="3" style="text-align:center">puts</th>
+                                </tr>
+                                <tr>
+                                    <th></th>
+                                    <th>team</th>
+                                    <th style="text-align:right">p(%)</th>
+                                    <th style="text-align:right">px</th>
+                                    <th class="th-calls" style="text-align:right">k=20</th>
+                                    <th class="th-calls" style="text-align:right">k=40</th>
+                                    <th class="th-calls" style="text-align:right">k=60</th>
+                                    <th class="th-puts"  style="text-align:right">k=20</th>
+                                    <th class="th-puts"  style="text-align:right">k=40</th>
+                                    <th class="th-puts"  style="text-align:right">k=60</th>
+                                </tr>
+                            </thead>
+                            <tbody id="fwc-tbody">
+                                <tr>
+                                    <td colspan="10" style="color:var(--text-muted);padding:2rem 0.75rem">
+                                        loading...
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <section class="section">
+                <div class="container">
+                    <p style="font-size:0.75rem;color:var(--text-muted);line-height:1.8">
+                        future · calls (k=20/40/60) · puts (k=20/40/60) · prices in ¢ per $1 ·
+                        <span id="data-ts">—</span>
+                    </p>
+                </div>
+            </section>
+        </main>
+
+        <footer class="footer">
+            <div class="container">
+                <p class="footer-text">fwc 2026 options · model prices · strikes on qualifying-probability scale</p>
+            </div>
+        </footer>
+
+    </div>
+
+    <script>
+    // ════════════════════════════════════════════════════════════════════════
+    // PASSWORD GATE
+    // To change: python -c "import hashlib; print(hashlib.sha256(b'pw').hexdigest())"
+    // ════════════════════════════════════════════════════════════════════════
+    const PW_HASH = '13c56c7629559aa4cbaec57ec5aac24abba2eeeb26a8411195decd2ee6dff0cc';
+
+    async function hashInput(s) {
+        const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(s));
+        return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('');
+    }
+
+    document.getElementById('pw-input').addEventListener('keydown', async (e) => {
+        if (e.key !== 'Enter') return;
+        if (await hashInput(e.target.value) === PW_HASH) {
+            document.getElementById('gate').style.display = 'none';
+            document.getElementById('fwc').style.display = 'block';
+            initFWC();
+        } else {
+            e.target.value = '';
+            const err = document.getElementById('pw-error');
+            err.textContent = 'incorrect';
+            setTimeout(() => { err.innerHTML = '&nbsp;'; }, 2000);
+        }
+    });
+
+    // ════════════════════════════════════════════════════════════════════════
+    // DATA
+    // ════════════════════════════════════════════════════════════════════════
+    function fixEncoding(s) {
+        return s.replace(/TÃ¼rkiye/g, 'Türkiye');
+    }
+
+    async function loadCSV() {
+        const resp = await fetch('options_table.csv');
+        const text = fixEncoding(await resp.text());
+        const lines = text.trim().split('\n');
+        return lines.slice(1).map(line => {
+            const v = line.split(',');
+            return {
+                team:    v[0].trim(),
+                qualify: parseFloat(v[1]),
+                future:  parseFloat(v[2]),
+                c20:     parseFloat(v[3]),
+                c40:     parseFloat(v[4]),
+                c60:     parseFloat(v[5]),
+                p20:     parseFloat(v[6]),
+                p40:     parseFloat(v[7]),
+                p60:     parseFloat(v[8]),
+            };
+        });
+    }
+
+    function qualifyClass(p) {
+        if (p >= 80) return 'q-hi';
+        if (p >= 50) return 'q-mid';
+        return 'q-lo';
+    }
+
+    function fmt(n, dp = 2) {
+        return isNaN(n) ? '—' : n.toFixed(dp);
+    }
+
+    function escHtml(s) {
+        return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    }
+
+    async function initFWC() {
+        let rows;
+        try {
+            rows = await loadCSV();
+        } catch (err) {
+            document.getElementById('fwc-tbody').innerHTML =
+                `<tr><td colspan="10" style="color:var(--accent-orange);padding:2rem 0.75rem">failed to load data</td></tr>`;
+            return;
+        }
+
+        const maxFuture = rows[0].future;
+
+        document.getElementById('fwc-tbody').innerHTML = rows.map((r, i) => `
+            <tr>
+                <td class="col-rank">${i + 1}</td>
+                <td class="col-team">${escHtml(r.team)}</td>
+                <td class="col-qualify">
+                    <div class="qualify-cell">
+                        <span>${fmt(r.qualify, 1)}%</span>
+                        <div class="qualify-dot ${qualifyClass(r.qualify)}"></div>
+                    </div>
+                </td>
+                <td class="col-future">
+                    <div class="future-cell">
+                        <div class="future-bar" style="width:${Math.round(r.future / maxFuture * 56)}px"></div>
+                        <span>${fmt(r.future)}</span>
+                    </div>
+                </td>
+                <td class="col-call">${fmt(r.c20)}</td>
+                <td class="col-call">${fmt(r.c40)}</td>
+                <td class="col-call">${fmt(r.c60)}</td>
+                <td class="col-put">${fmt(r.p20)}</td>
+                <td class="col-put">${fmt(r.p40)}</td>
+                <td class="col-put">${fmt(r.p60)}</td>
+            </tr>
+        `).join('');
+
+        document.getElementById('data-ts').textContent =
+            'as of ' + new Date().toLocaleDateString('en-AU', { day: 'numeric', month: 'short', year: 'numeric' });
+    }
+    </script>
+
+</body>
+</html>
