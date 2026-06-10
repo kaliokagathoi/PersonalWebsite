@@ -215,8 +215,8 @@
                                     <th colspan="2"></th>
                                     <th style="text-align:right">qualify</th>
                                     <th class="th-future" style="text-align:right">future</th>
-                                    <th class="th-calls" colspan="3" style="text-align:center">calls</th>
-                                    <th class="th-puts"  colspan="3" style="text-align:center">puts</th>
+                                    <th class="th-calls" colspan="4" style="text-align:center">calls</th>
+                                    <th class="th-puts"  colspan="4" style="text-align:center">puts</th>
                                 </tr>
                                 <tr>
                                     <th></th>
@@ -226,14 +226,16 @@
                                     <th class="th-calls" style="text-align:right">k=20</th>
                                     <th class="th-calls" style="text-align:right">k=40</th>
                                     <th class="th-calls" style="text-align:right">k=60</th>
+                                    <th class="th-calls" style="text-align:right">k=80</th>
                                     <th class="th-puts"  style="text-align:right">k=20</th>
                                     <th class="th-puts"  style="text-align:right">k=40</th>
                                     <th class="th-puts"  style="text-align:right">k=60</th>
+                                    <th class="th-puts"  style="text-align:right">k=80</th>
                                 </tr>
                             </thead>
                             <tbody id="fwc-tbody">
                                 <tr>
-                                    <td colspan="10" style="color:var(--text-muted);padding:2rem 0.75rem">
+                                    <td colspan="12" style="color:var(--text-muted);padding:2rem 0.75rem">
                                         loading...
                                     </td>
                                 </tr>
@@ -246,7 +248,7 @@
             <section class="section">
                 <div class="container">
                     <p style="font-size:0.75rem;color:var(--text-muted);line-height:1.8">
-                        future · calls (k=20/40/60) · puts (k=20/40/60) · prices in ¢ per $1 ·
+                        future · calls (k=20/40/60/80) · puts (k=20/40/60/80) · prices in ¢ per $1 ·
                         <span id="data-ts">—</span>
                     </p>
                 </div>
@@ -307,9 +309,11 @@
                 c20:     parseFloat(v[3]),
                 c40:     parseFloat(v[4]),
                 c60:     parseFloat(v[5]),
-                p20:     parseFloat(v[6]),
-                p40:     parseFloat(v[7]),
-                p60:     parseFloat(v[8]),
+                c80:     parseFloat(v[6]),
+                p20:     parseFloat(v[7]),
+                p40:     parseFloat(v[8]),
+                p60:     parseFloat(v[9]),
+                p80:     parseFloat(v[10]),
             };
         });
     }
@@ -334,7 +338,7 @@
             rows = await loadCSV();
         } catch (err) {
             document.getElementById('fwc-tbody').innerHTML =
-                `<tr><td colspan="10" style="color:var(--accent-orange);padding:2rem 0.75rem">failed to load data</td></tr>`;
+                `<tr><td colspan="12" style="color:var(--accent-orange);padding:2rem 0.75rem">failed to load data</td></tr>`;
             return;
         }
 
@@ -359,9 +363,11 @@
                 <td class="col-call">${fmt(r.c20)}</td>
                 <td class="col-call">${fmt(r.c40)}</td>
                 <td class="col-call">${fmt(r.c60)}</td>
+                <td class="col-call">${fmt(r.c80)}</td>
                 <td class="col-put">${fmt(r.p20)}</td>
                 <td class="col-put">${fmt(r.p40)}</td>
                 <td class="col-put">${fmt(r.p60)}</td>
+                <td class="col-put">${fmt(r.p80)}</td>
             </tr>
         `).join('');
 
